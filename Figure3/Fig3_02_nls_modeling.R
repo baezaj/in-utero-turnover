@@ -15,7 +15,6 @@ library(modelr)
 data_lm <- import("intermediate_data/02_out_Peptide_modeling_input_data.csv", setclass = "tibble")
 
 
-
 # Formatting --------------------------------------------------------------
 
 

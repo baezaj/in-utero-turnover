@@ -9,7 +9,7 @@ library(rio)
 
 data <- import("data/20171221_Baeza_DevAtlas_Brain_Liver_timecourse_PeptideGroups.txt", setclass = "tibble")
 input_files <- import("data/20171221_Baeza_DevAtlas_Brain_Liver_timecourse_InputFiles.txt", setclass = "tibble")
-mida_median <- import("processed_data/01_out_MIDA_median_PD_MaxQuant.csv", setclass = "tibble")
+# mida_median <- import("processed_data/01_out_MIDA_median_PD_MaxQuant.csv", setclass = "tibble")
 proteins <- import("data/20171221_Baeza_DevAtlas_Brain_Liver_timecourse_Proteins.txt", setclass = "tibble")
 
 
