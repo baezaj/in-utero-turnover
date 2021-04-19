@@ -3,37 +3,36 @@
 
 library(tidyverse)
 library(rio)
-# library(purrr)
 library(broom)
 library(modelr)
-# library(ggthemes)
+
 
 
 # Data Import -------------------------------------------------------------
 
 
-data_lm <- import("intermediate_data/02_out_Peptide_modeling_input_data.csv", setclass = "tibble")
+data_nls <- import("intermediate_data/02_out_Peptide_modeling_input_data.csv", setclass = "tibble")
 
 
 # Formatting --------------------------------------------------------------
 
 
 # Filtering data
-data_lm <- data_lm %>% 
+data_nls <- data_nls %>% 
   filter(!is.na(fraction)) %>% 
   select(-heavy, -total, -light, 
          # -synthesized, 
          -has_fraction)
 
 # Filtering peptides seen in all time points
-temp <- data_lm %>% 
+temp <- data_nls %>% 
   filter(time > 0) %>%
   select(tissue, sequence, modifications, theo_mhplus_in_da, 
          master_protein_accessions, master_protein_descriptions) %>% 
   distinct() %>% 
   ungroup()
 
-data_lm <- inner_join(data_lm, temp)
+data_nls <- inner_join(data_nls, temp)
 rm(temp);gc()
 
 
@@ -75,7 +74,7 @@ time_count <- function(x){
 
 # Nesting the data
 system.time(
-  data_nest <- data_lm %>% 
+  data_nest <- data_nls %>% 
     group_by(tissue, sequence, modifications, theo_mhplus_in_da,
              master_protein_accessions, master_protein_descriptions) %>% 
     nest() %>% 
@@ -93,7 +92,6 @@ system.time(
 )
 
 
-
 # Model summary statistics ------------------------------------------------
 
 
@@ -104,7 +102,8 @@ model_tidy <- data_nest %>%
   unnest(tidy_nls) %>%
   mutate(model = "pulse_chase") %>% 
   arrange(-n_runs, sequence)%>% 
-  select(-data, -model_pc)
+  select(-data, -model_pc) %>% 
+  filter(master_protein_accessions != "")
 
 
 # Glancing ----------------------------------------------------------------
@@ -117,7 +116,9 @@ model_glance <- data_nest %>%
   unnest(glance_nls) %>%
   mutate(model = "pulse_chase") %>% 
   select(-data, -model_pc) %>%
-  arrange(-n_runs, sequence)
+  arrange(-n_runs, sequence) %>% 
+  filter(master_protein_accessions != "")
+
 
 
 # Model Prediction - Best fit line ----------------------------------------
@@ -128,7 +129,9 @@ data_best_fit_line <- data_nest %>%
   filter(model_pc != "NA") %>% 
   mutate(best_fit = map(model_pc, best_fit_line)) %>% 
   unnest(best_fit)%>% 
-  select(-data, -model_pc)
+  select(-data, -model_pc) %>% 
+  filter(master_protein_accessions != "")
+
 
 
 data_best_fit_line <- data_best_fit_line %>% 
