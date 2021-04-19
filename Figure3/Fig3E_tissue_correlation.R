@@ -9,7 +9,8 @@ library(rio)
 # data import -------------------------------------------------------------
 
 
-model_tidy <- import("intermediate_data/05_out_model_nls_peptide_fraction_broom_tidy.csv")
+model_tidy <- import("intermediate_data/Fig03_nls_model_peptide_fraction_broom_tidy.csv")
+
 
 # Filtering ---------------------------------------------------------------
 
@@ -19,7 +20,7 @@ data_filtered <- model_tidy %>%
   filter(p.value < 0.05,
          std.error < 0.025) %>% 
   select(tissue, sequence, modifications, master_protein_accessions, master_protein_descriptions, 
-         theo_mhplus_in_da, estimate) %>% 
+         theo_m_hplus_in_da, estimate) %>% 
   spread(tissue, estimate)
 
 # Annotating by protein groups

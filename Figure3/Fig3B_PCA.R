@@ -10,7 +10,7 @@ library(irlba) # for sparsed matrix PCA
 
 # data import -------------------------------------------------------------
 
-data <- import("intermediate_data/02_out_Peptide_tidy_data.csv")
+data <- import("intermediate_data/Fig03_Peptide_tidy_data.csv")
 
 
 # formatting --------------------------------------------------------------
@@ -20,9 +20,9 @@ data <- import("intermediate_data/02_out_Peptide_tidy_data.csv")
 pca_data_irlba <- data %>% 
   filter(isotope == "heavy",
          !is.na(value)) %>% 
-  select(tissue, time, rep, sequence, theo_mhplus_in_da, master_protein_accessions, value) %>% 
+  select(tissue, time, rep, sequence, theo_m_hplus_in_da, master_protein_accessions, value) %>% 
   unite(id, tissue, time, rep, sep = "_") %>% 
-  unite(feature, master_protein_accessions, sequence, theo_mhplus_in_da, sep = "_")
+  unite(feature, master_protein_accessions, sequence, theo_m_hplus_in_da, sep = "_")
 
 # Setting seed for reproducibility
 set.seed(10) 

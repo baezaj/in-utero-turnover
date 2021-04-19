@@ -7,11 +7,10 @@ library(broom)
 library(modelr)
 
 
-
 # Data Import -------------------------------------------------------------
 
 
-data_nls <- import("intermediate_data/02_out_Peptide_modeling_input_data.csv", setclass = "tibble")
+data_nls <- import("intermediate_data/Fig03_Peptide_modeling_input_data.csv", setclass = "tibble")
 
 
 # Formatting --------------------------------------------------------------
@@ -27,7 +26,7 @@ data_nls <- data_nls %>%
 # Filtering peptides seen in all time points
 temp <- data_nls %>% 
   filter(time > 0) %>%
-  select(tissue, sequence, modifications, theo_mhplus_in_da, 
+  select(tissue, sequence, modifications, theo_m_hplus_in_da, 
          master_protein_accessions, master_protein_descriptions) %>% 
   distinct() %>% 
   ungroup()
@@ -75,7 +74,7 @@ time_count <- function(x){
 # Nesting the data
 system.time(
   data_nest <- data_nls %>% 
-    group_by(tissue, sequence, modifications, theo_mhplus_in_da,
+    group_by(tissue, sequence, modifications, theo_m_hplus_in_da,
              master_protein_accessions, master_protein_descriptions) %>% 
     nest() %>% 
     mutate(n_tp = map_dbl(data, time_count)) %>% 
@@ -133,19 +132,15 @@ data_best_fit_line <- data_nest %>%
   filter(master_protein_accessions != "")
 
 
-
+# creating a unique identifier for each peptide
 data_best_fit_line <- data_best_fit_line %>% 
-  unite(id, tissue, sequence, modifications, theo_mhplus_in_da, sep = "_", remove = FALSE)
-
-ggplot(data_best_fit_line) +
-  geom_line(aes(x = time, y = pred, group = id), alpha = 0.05) +
-  facet_wrap(~tissue)
+  unite(id, tissue, sequence, modifications, theo_m_hplus_in_da, sep = "_", remove = FALSE)
 
 
 # Data Export -------------------------------------------------------------
 
 
-export(model_glance, file = "intermediate_data/05_out_model_nls_peptide_fraction_broom_glance.csv")
-export(model_tidy, file = "intermediate_data/05_out_model_nls_peptide_fraction_broom_tidy.csv")
-export(data_best_fit_line, file = "intermediate_data/05_out_nls_model_BestFitLine_data.csv")
+export(model_glance, file = "intermediate_data/Fig03_nls_model_peptide_fraction_broom_glance.csv")
+export(model_tidy, file = "intermediate_data/Fig03_nls_model_peptide_fraction_broom_tidy.csv")
+export(data_best_fit_line, file = "intermediate_data/Fig03_nls_model_BestFitLine_data.csv")
 

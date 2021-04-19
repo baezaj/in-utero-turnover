@@ -10,8 +10,8 @@ library(modelr)
 
 # data import -------------------------------------------------------------
 
-data_lm <- import("intermediate_data/02_out_Peptide_modeling_input_data.csv")
-model_tidy <- import("intermediate_data/05_out_model_nls_peptide_fraction_broom_tidy.csv")
+data_nls <- import("intermediate_data/Fig03_Peptide_modeling_input_data.csv")
+model_tidy <- import("intermediate_data/Fig03_nls_model_peptide_fraction_broom_tidy.csv")
 
 # formatting --------------------------------------------------------------
 
@@ -20,13 +20,13 @@ model_tidy <- import("intermediate_data/05_out_model_nls_peptide_fraction_broom_
 data_filtered <- model_tidy %>% 
   filter(p.value < 0.05,
          n_runs >= 10) %>%
-  select(tissue, sequence, modifications, theo_mhplus_in_da,
+  select(tissue, sequence, modifications, theo_m_hplus_in_da,
          master_protein_accessions, master_protein_descriptions,
          n_runs, n_tp, term, estimate, p.value) %>% 
   distinct()
 
 
-data <- left_join(data_filtered, data_lm)
+data <- left_join(data_filtered, data_nls)
 
 
 # peptide level data ------------------------------------------------------
