@@ -10,7 +10,7 @@ library(ggthemes) # extra ggplot themes
 # data import -------------------------------------------------------------
 
 # Importing tidy data
-data_tidy <- import("intermediate_data/01_out_Peptide_abundance_tidy.csv")
+data_tidy <- import("intermediate_data/Fig02_Peptide_abundance_tidy.csv")
 
 
 # Formatting --------------------------------------------------------------

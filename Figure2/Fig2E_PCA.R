@@ -5,15 +5,12 @@
 library(tidyverse)
 library(rio) # data import
 library(tidytext) # using with PCA
-library(RColorBrewer) # color palettes
 library(irlba) # for sparsed matrix PCA
-library(plotly) # for 3d plotting
-
 
 
 # data import -------------------------------------------------------------
 
-data_tidy <- import("intermediate_data/01_out_Peptide_abundance_tidy.csv")
+data_tidy <- import("intermediate_data/Fig02_Peptide_abundance_tidy.csv")
 
 
 # PCA ---------------------------------------------------------------------
