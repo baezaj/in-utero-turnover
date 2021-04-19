@@ -6,16 +6,10 @@ library(rio)
 library(janitor)
 library(broom)
 library(ggrepel)
-# library(modelr)
-# library(patchwork)
-# library(ggthemes)
-# library(ggridges)
-# library(ggforce)
 
 
 # data import -------------------------------------------------------------
 
-# data_nls <- import("../Figure3/intermediate_data/02_out_Peptide_modeling_input_data.csv")
 model_tidy <- import("../Figure3/intermediate_data/05_out_model_nls_peptide_fraction_broom_tidy.csv")
 proteins <- import("../Figure3/data/20171221_Baeza_DevAtlas_Brain_Liver_timecourse_Proteins.txt")
 input_files <- import("../Figure3/data/20171221_Baeza_DevAtlas_Brain_Liver_timecourse_InputFiles.txt")
@@ -95,17 +89,6 @@ data_cor <- left_join(data_cor, prot_long) %>%
   filter(!is.na(abundance_median))
 
 
-# Plots -------------------------------------------------------------------
-
-# Supplemental Figure 4A
-ggplot(model_tidy) +
-  geom_density(aes(x = estimate, color = tissue)) +
-  scale_x_log10() +
-  theme_bw(base_size = 14) +
-  annotate("text", y = 0.6, x = 1e-3, label = paste0("Wilcox p.value = ",round(wilcox.test(estimate ~ tissue, data = model_tidy)$p.value, digits = 8)))
-
-
-
 # protein level stats -----------------------------------------------------
 
 ## Functions used for ranked ANOVA
@@ -140,6 +123,17 @@ data_stats <- data_nest %>%
   group_by(master_protein_accessions) %>% 
   mutate(adj.p.value = p.adjust(p.value, method = "fdr")) %>% 
   ungroup()
+
+
+# Plots -------------------------------------------------------------------
+
+# Supplemental Figure 4A
+ggplot(model_tidy) +
+  geom_density(aes(x = estimate, color = tissue)) +
+  scale_x_log10() +
+  theme_bw(base_size = 14) +
+  annotate("text", y = 0.6, x = 1e-3, label = paste0("Wilcox p.value = ",round(wilcox.test(estimate ~ tissue, data = model_tidy)$p.value, digits = 8)))
+
 
 # Supplemental Figure 4B
 # Volcano plot
