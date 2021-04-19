@@ -24,6 +24,18 @@ input_files <- import("../Figure3/data/20171221_Baeza_DevAtlas_Brain_Liver_timec
 # Formatting --------------------------------------------------------------
 
 
+# Selecting peptides for protein quant
+model_tidy <- model_tidy %>% 
+  filter(p.value < 0.05,
+         std.error < 0.025,
+         n_runs >= 10) %>%
+  select(tissue, sequence, modifications, theo_mhplus_in_da,
+         master_protein_accessions, master_protein_descriptions,
+         n_runs, n_tp, term, estimate, p.value) %>% 
+  distinct() %>% 
+  mutate(t_half = log(2)/estimate)
+
+
 # Cleaning input file names
 input_files <- input_files %>% 
   clean_names() %>% 
@@ -68,7 +80,7 @@ prot_long <- prot_long %>%
   ungroup() %>% 
   rename(master_protein_accessions = "accession")
 
-
+# Data for turnover vs protein abundance correlation
 data_cor <- model_tidy %>% 
   filter(master_protein_accessions != "")
 
@@ -77,28 +89,10 @@ data_cor$master_protein_accessions <- unlist(lapply(data_cor$master_protein_acce
 }))
 
 
-
 # Merging with protein
 # Filtering data
 data_cor <- left_join(data_cor, prot_long) %>% 
   filter(!is.na(abundance_median))
-
-
-# stopped here ------------------------------------------------------------
-
-
-
-# Selecting peptides for protein quant
-model_tidy <- model_tidy %>% 
-  filter(p.value < 0.05,
-         std.error < 0.025,
-         n_runs >= 10) %>%
-  select(tissue, sequence, modifications, theo_mhplus_in_da,
-         master_protein_accessions, master_protein_descriptions,
-         n_runs, n_tp, term, estimate, p.value) %>% 
-  distinct() %>% 
-  mutate(t_half = log(2)/estimate)
-
 
 
 # Plots -------------------------------------------------------------------
