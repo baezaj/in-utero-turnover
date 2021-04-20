@@ -82,7 +82,6 @@ ggplot(data_cor, aes(x = Liver_light_2, y = Liver_light_3)) +
                                         digits = 4)))
 
 
-
 # Figure 2D Inset (Heavy)
 ggplot(data_cor, aes(x = Heart_heavy_3, y = Heart_heavy_2)) +
   geom_point(shape = 22) +
