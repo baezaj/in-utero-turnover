@@ -325,8 +325,8 @@ data_nls <- data_nls %>%
 
 # Data export -------------------------------------------------------------
 
-export(data_tidy, file = "intermediate_data/01_out_Liver_Lung_combined_Peptide_tidy_data.csv")
-export(data_nls, file = "intermediate_data/01_out_Liver_Lung_combined_Peptide_modeling_input_data.csv")
+export(data_tidy, file = "intermediate_data/Fig04_Liver_Lung_combined_Peptide_tidy_data.csv")
+export(data_nls, file = "intermediate_data/Fig04_Liver_Lung_combined_Peptide_modeling_input_data.csv")
 
 
 

@@ -12,10 +12,10 @@ library(UpSetR)
 # data import -------------------------------------------------------------
 
 
-model_tidy <- import("intermediate_data/02_out_model_nls_peptide_fraction_broom_tidy.csv")
-model_glance <- import("intermediate_data/02_out_model_nls_peptide_fraction_broom_glance.csv")
-bfl <- import("intermediate_data/02_out_nls_model_BestFitLine_data.csv")
-data_lm <- import("intermediate_data/01_out_Liver_Lung_combined_Peptide_modeling_input_data.csv")
+model_tidy <- import("intermediate_data/Fig04_nls_model_peptide_fraction_broom_tidy.csv")
+model_glance <- import("intermediate_data/Fig04_nls_model_peptide_fraction_broom_glance.csv")
+bfl <- import("intermediate_data/Fig04_nls_model_BestFitLine_data.csv")
+data_nls <- import("intermediate_data/Fig04_Liver_Lung_combined_Peptide_modeling_input_data.csv")
 
 
 # Filtering poor model fits -----------------------------------------------
@@ -47,9 +47,6 @@ bfl <- inner_join(bfl, temp)%>%
 
 
 rm(temp);gc()
-
-
-
 
 
 # Functions ---------------------------------------------------------------
@@ -113,7 +110,6 @@ data <- data_nest %>%
   unnest(data)
 
 
-
 # Fig 4D ------------------------------------------------------------------
 
 
@@ -150,7 +146,7 @@ ggplot(bfl) +
 
 # Supp Fig 5B -------------------------------------------------------------
 
-liv_dat <- data_lm %>% 
+liv_dat <- data_nls %>% 
   filter(master_protein_accessions %in% liv_list, tissue == "Liver",
          sequence != "IGGHGAEYGAEALER") %>% 
   mutate(mox = str_detect(modifications, "(?i)oxidation")) %>% 

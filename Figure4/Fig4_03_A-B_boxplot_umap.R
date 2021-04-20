@@ -9,7 +9,7 @@ library(umap)
 # data --------------------------------------------------------------------
 
 # Importing lung and liver data
-data_tidy <- import("intermediate_data/01_out_Liver_Lung_combined_Peptide_tidy_data.csv")
+data_tidy <- import("intermediate_data/Fig04_Liver_Lung_combined_Peptide_tidy_data.csv")
 
 
 # Single point calibration ------------------------------------------------
@@ -62,12 +62,6 @@ ggplot(data_tidy %>% filter(time > 0)) +
        y = "Abundance (Log2)",
        color = "Time point") +
   facet_grid(vars(tissue), vars(isotope))
-
-
-
-
-
-
 
 
 # Fig4C -------------------------------------------------------------------

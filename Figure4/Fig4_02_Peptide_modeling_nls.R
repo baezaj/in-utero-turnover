@@ -9,7 +9,7 @@ library(modelr)
 # Data Import -------------------------------------------------------------
 
 
-data_nls <- import("intermediate_data/01_out_Liver_Lung_combined_Peptide_modeling_input_data.csv", setclass = "tibble")
+data_nls <- import("intermediate_data/Fig04_Liver_Lung_combined_Peptide_modeling_input_data.csv", setclass = "tibble")
 
 
 
@@ -100,7 +100,8 @@ model_tidy <- data_nest %>%
   unnest(tidy_nls) %>%
   mutate(model = "pulse_chase") %>% 
   arrange(-n_runs, sequence)%>% 
-  select(-data, -model_pc)
+  select(-data, -model_pc) %>% 
+  filter(master_protein_accessions != "")
 
 
 # Glancing ----------------------------------------------------------------
@@ -113,7 +114,9 @@ model_glance <- data_nest %>%
   unnest(glance_nls) %>%
   mutate(model = "pulse_chase") %>% 
   select(-data, -model_pc) %>%
-  arrange(-n_runs, sequence)
+  arrange(-n_runs, sequence) %>% 
+  filter(master_protein_accessions != "")
+
 
 
 # Model Prediction - Best fit line ----------------------------------------
@@ -124,12 +127,14 @@ data_best_fit_line <- data_nest %>%
   filter(model_pc != "NA") %>% 
   mutate(best_fit = map(model_pc, best_fit_line)) %>% 
   unnest(best_fit)%>% 
-  select(-data, -model_pc)
+  select(-data, -model_pc) %>% 
+  filter(master_protein_accessions != "")
+
 
 
 # Data Export -------------------------------------------------------------
 
 
-export(model_glance, file = "intermediate_data/02_out_model_nls_peptide_fraction_broom_glance.csv")
-export(model_tidy, file = "intermediate_data/02_out_model_nls_peptide_fraction_broom_tidy.csv")
-export(data_best_fit_line, file = "intermediate_data/02_out_nls_model_BestFitLine_data.csv")
+export(model_glance, file = "intermediate_data/Fig04_nls_model_peptide_fraction_broom_glance.csv")
+export(model_tidy, file = "intermediate_data/Fig04_nls_model_peptide_fraction_broom_tidy.csv")
+export(data_best_fit_line, file = "intermediate_data/Fig04_nls_model_BestFitLine_data.csv")
