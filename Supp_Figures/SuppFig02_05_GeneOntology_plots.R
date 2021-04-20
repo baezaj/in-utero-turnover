@@ -19,8 +19,6 @@ data <- import("data/20200205_Volcano_plot_Gene_Ontology_GOrilla_results.csv")
 
 data <- data %>% 
   clean_names()
-  
-
 
 
 # Plots -------------------------------------------------------------------

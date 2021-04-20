@@ -114,14 +114,3 @@ legend("right",
        title = "Cluster"
 )
 
-
-
-# Exporting data ----------------------------------------------------------
-
-data_clust <- data_hm %>% 
-  rownames_to_column("id") %>% 
-  select(id, cluster, everything()) %>% 
-  separate(id, c("sequence", "modifications", "master_protein_accessions"), sep = "_") %>% 
-  arrange(cluster)
-
-export(data_clust, file = "stats_data/03_Out_Heatmap_cluster_data.csv")

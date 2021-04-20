@@ -14,7 +14,7 @@ library(ggridges)
 
 # data import -------------------------------------------------------------
 
-data_nls <- import("../Figure3/intermediate_data/02_out_Peptide_modeling_input_data.csv")
+data_nls <- import("../Figure3/intermediate_data/Fig03_Peptide_modeling_input_data.csv")
 
 
 # fractional distribution -------------------------------------------------

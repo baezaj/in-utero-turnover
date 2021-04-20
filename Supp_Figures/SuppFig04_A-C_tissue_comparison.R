@@ -10,7 +10,7 @@ library(ggrepel)
 
 # data import -------------------------------------------------------------
 
-model_tidy <- import("../Figure3/intermediate_data/05_out_model_nls_peptide_fraction_broom_tidy.csv")
+model_tidy <- import("../Figure3/intermediate_data/Fig03_nls_model_peptide_fraction_broom_tidy.csv")
 proteins <- import("../Figure3/data/20171221_Baeza_DevAtlas_Brain_Liver_timecourse_Proteins.txt")
 input_files <- import("../Figure3/data/20171221_Baeza_DevAtlas_Brain_Liver_timecourse_InputFiles.txt")
 
@@ -23,7 +23,7 @@ model_tidy <- model_tidy %>%
   filter(p.value < 0.05,
          std.error < 0.025,
          n_runs >= 10) %>%
-  select(tissue, sequence, modifications, theo_mhplus_in_da,
+  select(tissue, sequence, modifications, theo_m_hplus_in_da,
          master_protein_accessions, master_protein_descriptions,
          n_runs, n_tp, term, estimate, p.value) %>% 
   distinct() %>% 
