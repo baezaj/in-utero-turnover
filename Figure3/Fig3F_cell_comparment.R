@@ -6,9 +6,6 @@ library(tidyverse)
 library(rio)
 library(janitor)
 library(broom)
-# library(modelr)
-# library(ggthemes)
-# library(forcats)
 library(viridisLite)
 
 # data import -------------------------------------------------------------
@@ -125,7 +122,7 @@ ggplot(data_filtered %>% filter(go == "cellular_component",
   theme_bw(base_size = 14) +
   facet_wrap(~tissue) +
   coord_flip() +
-  labs(y = "synthesis rate Log10",
+  labs(y = expression(Rate~(Log[10])),
        x = "Cellular Compartment")
 
 
